@@ -1,0 +1,24 @@
+fileFormatVersion: 2
+guid: 916bccd1c9aef4739b5a2b2cf1993a8e
+TrueTypeFontImporter:
+  externalObjects: {}
+  serializedVersion: 4
+  fontSize: 16
+  forceTextureCase: -2
+  characterSpacing: 0
+  characterPadding: 1
+  includeFontData: 1
+  fontName: Myanmar Text
+  fontNames:
+  - Myanmar Text
+  fallbackFontReferences:
+  - {fileID: 12800000, guid: fdf902dd8bbe84035b7a3ecae9e6340e, type: 3}
+  - {fileID: 12800000, guid: 4612044f2273e4465b712802fef2ee6b, type: 3}
+  customCharacters: 
+  fontRenderingMode: 0
+  ascentCalculationMode: 1
+  useLegacyBoundsCalculation: 0
+  shouldRoundAdvanceValue: 1
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

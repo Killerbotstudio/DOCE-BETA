@@ -1,0 +1,72 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &3108680781774816092
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 3108680781774816090}
+  - component: {fileID: 3108680781774816093}
+  - component: {fileID: 3108680781774816091}
+  m_Layer: 0
+  m_Name: MessageController
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &3108680781774816090
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3108680781774816092}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -0.07192724, y: 1.9020022, z: -608.8837}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &3108680781774816093
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3108680781774816092}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 93c794f096b4645a39851ae9f1a3ee6f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ConnectingLabel: {fileID: 0}
+  UserIdFormPanel: {fileID: 0}
+  UserIdText: {fileID: 0}
+  popupPanel: {fileID: 0}
+  acceptButton: {fileID: 0}
+  senderText: {fileID: 0}
+  popUpInfoText: {fileID: 0}
+  popupMessage: {fileID: 0}
+  timerText: {fileID: 0}
+  popUpMessageTime: 7
+  lobbyController: {fileID: 0}
+--- !u!114 &3108680781774816091
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3108680781774816092}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0b0d05bd465a94f23af1850391eb9a40, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  messageComponent: {fileID: 0}
+  idInput: {fileID: 0}
+  messageUserID: 
