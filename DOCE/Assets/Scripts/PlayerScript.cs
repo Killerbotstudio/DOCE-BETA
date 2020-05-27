@@ -40,6 +40,9 @@ public class PlayerScript : MonoBehaviour
     public int[] roundRecord = new int[4];
     public bool winner;
 
+
+    [SerializeField] private BoxCollider dropBox;
+
     private void Start()
     { 
         manager = FindObjectOfType<GameManager>();
@@ -72,6 +75,9 @@ public class PlayerScript : MonoBehaviour
         {
             piece.GetComponent<BoxCollider>().enabled = true;
         }
+        dropBox.gameObject.SetActive(false);
+        dropBox.enabled = false;
+
         StartCoroutine(Turn());
     }
     private void SetupTimer()
@@ -117,15 +123,21 @@ public class PlayerScript : MonoBehaviour
             SetupTimer();
             if (playingPiece == null)
             {
+                dropBox.gameObject.SetActive(false);
+                dropBox.enabled = false;
+                
                 if (Input.GetMouseButtonUp(0))
                 {
+                    Debug.Log("click2");
                     LayerMask layerMaskPiece = LayerMask.GetMask("Pieces");
                     RaycastHit hit;
                     Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
                     if (Physics.Raycast(ray, out hit,Mathf.Infinity, layerMaskPiece))
                     {
+                        Debug.Log("piece");
                         if (!IsPointerOverUIObject())
                         {
+                            Debug.Log("uiCheck");
                             manager.PlaySound(manager.clickClip);
                             PlayerPiece piece = hit.collider.GetComponent<PlayerPiece>();
                             PlayerPiece playingPieceClone = Instantiate(piece, Input.mousePosition, Quaternion.identity);
@@ -134,6 +146,9 @@ public class PlayerScript : MonoBehaviour
                             piece.GetComponent<BoxCollider>().enabled = false;
                             piece.GetComponent<SpriteRenderer>().enabled = false;
                             playingPiece = playingPieceClone;
+                            dropBox.gameObject.SetActive(true);
+                            dropBox.enabled = true;
+                            
                         }
                     }
                 }
@@ -146,11 +161,28 @@ public class PlayerScript : MonoBehaviour
                     playingPiece.transform.position = Camera.main.ScreenToWorldPoint(temp);
                     LayerMask layerMaskCell = LayerMask.GetMask("Cell");
                     LayerMask layermaskPieceAvoid = LayerMask.GetMask("Pieces");
+                    LayerMask layerDropBox = LayerMask.GetMask("Drop");
                     layermaskPieceAvoid = ~layermaskPieceAvoid;
                     if (Input.GetMouseButtonUp(0))
                     {
+                        Debug.Log("click");
                         RaycastHit hit;
                         Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+
+                        //Drop on positions
+                        if(Physics.Raycast(ray, out hit, Mathf.Infinity, layerDropBox)){
+                            dropBox.gameObject.SetActive(false);
+                            dropBox.enabled = false;
+                            manager.PlaySound(manager.pieceClip);
+                            Debug.Log("Droped piece " + hit.transform.name);
+                            foreach (PlayerPiece piece in this.GetComponentsInChildren<PlayerPiece>())
+                            {
+                                piece.GetComponent<BoxCollider>().enabled = true;
+                                piece.GetComponent<SpriteRenderer>().enabled = true;
+                            }
+                            Destroy(playingPiece.gameObject);
+                        }
+
                         if (Physics.Raycast(ray, out hit, Mathf.Infinity, layerMaskCell))
                         {
                             if (!IsPointerOverUIObject())
@@ -213,7 +245,9 @@ public class PlayerScript : MonoBehaviour
                 }
                 else
                 {
-                    manager.PlaySound(manager.click2Clip);
+                    dropBox.gameObject.SetActive(false);
+                    dropBox.enabled = false;
+                    manager.PlaySound(manager.pieceClip);
                     foreach (PlayerPiece piece in this.GetComponentsInChildren<PlayerPiece>())
                     {
                         piece.GetComponent<BoxCollider>().enabled = true;
@@ -225,6 +259,8 @@ public class PlayerScript : MonoBehaviour
             }
             yield return null;
         }
+        dropBox.gameObject.SetActive(false);
+        dropBox.enabled = false;
     }
     public bool CheckLastPosition(Cell lastCell, Cell newCell)
     {

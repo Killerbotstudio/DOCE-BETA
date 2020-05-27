@@ -220,11 +220,13 @@ public class OnlineGameManager : MonoBehaviour
     /// </summary>
     public void StartTurn()
     {
-        //Debug.Log("START TURN!!!");
+        Debug.Log("START TURN!!!");
         messageLog = "NOW IS YOUR TURN";
         controller.localPlayerInfo.PiecesSwitch(true);
 
         controller.turnManager.isMyTurn = true;
+        controller.localPlayerInfo.TurnMovement();
+        //localPlayerInfo.TurnMovement();
         //controller.turnManager.enabled = true;
         //controller.turnManager.OnGameStart();
         //controller.remotePlayerInfo.turnIndicator.SetActive(false);
@@ -239,6 +241,7 @@ public class OnlineGameManager : MonoBehaviour
         
 
         controller.turnManager.isMyTurn = false;
+        
 
         //controller.remotePlayerInfo.turnIndicator.SetActive(true);
     }

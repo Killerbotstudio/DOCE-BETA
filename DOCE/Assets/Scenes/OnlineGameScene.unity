@@ -5389,6 +5389,21 @@ MonoBehaviour:
             m_StringArgument: 
             m_BoolArgument: 0
           m_CallState: 2
+  - eventID: 2
+    callback:
+      m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 537265854}
+          m_MethodName: OpenLinkJSPlugin
+          m_Mode: 5
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: https://smartiguanagames.com
+            m_BoolArgument: 0
+          m_CallState: 2
 --- !u!114 &41448104
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5432,17 +5447,6 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 537265854}
-        m_MethodName: OpenLinkJSPlugin
-        m_Mode: 5
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: https://smartiguanagames.com
-          m_BoolArgument: 0
-        m_CallState: 2
       - m_Target: {fileID: 537265853}
         m_MethodName: ClickSound
         m_Mode: 1
@@ -22713,7 +22717,7 @@ Transform:
   m_Children:
   - {fileID: 537265848}
   m_Father: {fileID: 0}
-  m_RootOrder: 1
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &521079947
 GameObject:
@@ -23397,7 +23401,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 567781391}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -10.5, y: 0, z: 0}
+  m_LocalPosition: {x: -10.171632, y: 1.5683426, z: 692.08344}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 1108290989}
@@ -23409,8 +23413,9 @@ Transform:
   - {fileID: 2064346264770716492}
   - {fileID: 3316832279928721636}
   - {fileID: 4823297060300253820}
-  m_Father: {fileID: 0}
-  m_RootOrder: 5
+  - {fileID: 2868214831277634721}
+  m_Father: {fileID: 921299211}
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &567781394
 MonoBehaviour:
@@ -23446,6 +23451,7 @@ MonoBehaviour:
   playerNameText: {fileID: 1324876181386834883}
   diceCounter: {fileID: 1604628841}
   scoreManager: {fileID: 1080917817}
+  dropBox: {fileID: 2868214831277634750}
 --- !u!1 &596790012
 GameObject:
   m_ObjectHideFlags: 0
@@ -25391,6 +25397,50 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 761415977}
   m_CullTransparentMesh: 0
+--- !u!1 &761788317
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 761788319}
+  - component: {fileID: 761788318}
+  m_Layer: 12
+  m_Name: DropBox white
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 0
+--- !u!65 &761788318
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 761788317}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 0
+  serializedVersion: 2
+  m_Size: {x: 5.09, y: 10.21, z: 1}
+  m_Center: {x: 0, y: -1.25, z: 0}
+--- !u!4 &761788319
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 761788317}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 2810332150060609592}
+  m_RootOrder: 9
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &776832827
 GameObject:
   m_ObjectHideFlags: 0
@@ -30922,7 +30972,7 @@ GameObject:
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 4294967295
+  m_StaticEditorFlags: 0
   m_IsActive: 1
 --- !u!4 &921299211
 Transform:
@@ -30934,9 +30984,11 @@ Transform:
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: -0.32836813, y: -1.5683426, z: -692.08344}
   m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
+  m_Children:
+  - {fileID: 567781393}
+  - {fileID: 2810332150060609592}
   m_Father: {fileID: 0}
-  m_RootOrder: 0
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &921299212
 MonoBehaviour:
@@ -30985,8 +31037,6 @@ MonoBehaviour:
   turnManager: {fileID: 0}
   turnInt: 0
   isMyTurn: 0
-  localPlayerInfo: {fileID: 0}
-  remotePlayerInfo: {fileID: 0}
 --- !u!114 &921299214
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -43177,7 +43227,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 2
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1239787626
 GameObject:
@@ -43299,6 +43349,21 @@ MonoBehaviour:
             m_StringArgument: 
             m_BoolArgument: 0
           m_CallState: 2
+  - eventID: 2
+    callback:
+      m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 537265854}
+          m_MethodName: OpenLinkJSPlugin
+          m_Mode: 5
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: https://smartiguanagames.com/doce/
+            m_BoolArgument: 0
+          m_CallState: 2
 --- !u!114 &1239787631
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -43342,17 +43407,6 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 537265854}
-        m_MethodName: OpenLinkJSPlugin
-        m_Mode: 5
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: https://smartiguanagames.com/doce/
-          m_BoolArgument: 0
-        m_CallState: 2
       - m_Target: {fileID: 537265853}
         m_MethodName: ClickSound
         m_Mode: 1
@@ -43776,6 +43830,21 @@ MonoBehaviour:
             m_StringArgument: 
             m_BoolArgument: 0
           m_CallState: 2
+  - eventID: 2
+    callback:
+      m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 537265854}
+          m_MethodName: OpenLinkJSPlugin
+          m_Mode: 5
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: https://smartiguanagames.com/gravity-warfare/
+            m_BoolArgument: 0
+          m_CallState: 2
 --- !u!114 &1328154674
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -43819,17 +43888,6 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 537265854}
-        m_MethodName: OpenLinkJSPlugin
-        m_Mode: 5
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: https://smartiguanagames.com/gravity-warfare/
-          m_BoolArgument: 0
-        m_CallState: 2
       - m_Target: {fileID: 537265853}
         m_MethodName: ClickSound
         m_Mode: 1
@@ -63005,7 +63063,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 3
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &2106775704
 GameObject:
@@ -63610,7 +63668,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!1 &443962090470304233
 GameObject:
   m_ObjectHideFlags: 0
@@ -65729,7 +65787,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!212 &2532356384623115084
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -68055,6 +68113,7 @@ MonoBehaviour:
   playerNameText: {fileID: 3846823868477959146}
   diceCounter: {fileID: 677785413}
   scoreManager: {fileID: 696788043}
+  dropBox: {fileID: 761788318}
 --- !u!4 &2810332150060609592
 Transform:
   m_ObjectHideFlags: 0
@@ -68063,7 +68122,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2810332150060609574}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 10.5, y: 0, z: 0}
+  m_LocalPosition: {x: 10.828368, y: 1.5683426, z: 692.08344}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 2810332148477752708}
@@ -68075,8 +68134,9 @@ Transform:
   - {fileID: 4298204046939880293}
   - {fileID: 650646252997576909}
   - {fileID: 6375019687046375233}
-  m_Father: {fileID: 0}
-  m_RootOrder: 6
+  - {fileID: 761788319}
+  m_Father: {fileID: 921299211}
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!4 &2850465775475990145
 Transform:
@@ -68093,6 +68153,50 @@ Transform:
   m_Father: {fileID: 1710973618749138902}
   m_RootOrder: 18
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &2868214831277634720
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2868214831277634721}
+  - component: {fileID: 2868214831277634750}
+  m_Layer: 12
+  m_Name: DropBox black
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 0
+--- !u!4 &2868214831277634721
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2868214831277634720}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 567781393}
+  m_RootOrder: 9
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!65 &2868214831277634750
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2868214831277634720}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 0
+  serializedVersion: 2
+  m_Size: {x: 5.09, y: 10.21, z: 1}
+  m_Center: {x: 0, y: -1.25, z: 0}
 --- !u!4 &2885147152457700582
 Transform:
   m_ObjectHideFlags: 0
@@ -68535,7 +68639,7 @@ Canvas:
   m_Enabled: 1
   serializedVersion: 3
   m_RenderMode: 2
-  m_Camera: {fileID: 0}
+  m_Camera: {fileID: 519420031}
   m_PlaneDistance: 100
   m_PixelPerfect: 0
   m_ReceivesEvents: 1

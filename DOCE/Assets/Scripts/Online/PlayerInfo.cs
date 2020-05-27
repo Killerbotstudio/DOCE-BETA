@@ -49,6 +49,7 @@ public class PlayerInfo : MonoBehaviourPunCallbacks
     public Text diceCounter;
     public ScoreManager scoreManager;
 
+    [SerializeField] private BoxCollider dropBox;
 
     #region Initialize
 
@@ -86,6 +87,7 @@ public class PlayerInfo : MonoBehaviourPunCallbacks
         {
             //piece.gameObject.SetActive(activation);
             piece.GetComponent<BoxCollider>().enabled = activation;
+            Debug.Log(piece.name);
         }
         turnIndicator.SetActive(activation);
         controller.remotePlayerInfo.turnIndicator.SetActive(!activation);
@@ -132,37 +134,55 @@ public class PlayerInfo : MonoBehaviourPunCallbacks
 
 
 
-    
+    bool running;
     public void TurnMovement()
     { 
         playing = true;
-        StartCoroutine(PlayingRoutine());
+        dropBox.gameObject.SetActive(false);
+        dropBox.enabled = false;
+        if (!running)
+        {
+            running = true;
+            StartCoroutine(PlayingRoutine());
+        }
+            
     }
 
+    
     IEnumerator PlayingRoutine()
     {
         turnIndicator.SetActive(true); //CALL FROM TURNS
+        Debug.Log("playing");
+
         while (playing)
         {
             if (currentPlayingPiece == null)
             {
+                dropBox.gameObject.SetActive(false);
+                dropBox.enabled = false;
+
                 if (Input.GetMouseButtonUp(0))
                 {
+                    Debug.Log("click2" + this.gameObject);
                     LayerMask layerMaskPiece = LayerMask.GetMask("Pieces");
                     RaycastHit hit;
                     Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
                     if (Physics.Raycast(ray, out hit, Mathf.Infinity, layerMaskPiece))
                     {
+                        Debug.Log("piece");
                         if (!IsPointerOverUIObject())
                         {
+                            Debug.Log("uiCheck");
                             controller.manager.PlaySound(controller.manager.clickClip);
                             PlayerPiece piece = hit.collider.GetComponent<PlayerPiece>();
                             PlayerPiece playingPieceClone = Instantiate(piece, Input.mousePosition, Quaternion.identity);
-                            //playingPieceClone.name = playerName + "piece" + playingPieceClone.value;
+                            playingPieceClone.name = playerID + "piece" + playingPieceClone.value;
                             playingPieceClone.gameObject.layer = 1;
                             piece.GetComponent<BoxCollider>().enabled = false;
                             piece.GetComponent<SpriteRenderer>().enabled = false;
                             currentPlayingPiece = playingPieceClone;
+                            dropBox.gameObject.SetActive(true);
+                            dropBox.enabled = true;
                         }
                     }
                 }
@@ -176,11 +196,29 @@ public class PlayerInfo : MonoBehaviourPunCallbacks
                     currentPlayingPiece.transform.position = Camera.main.ScreenToWorldPoint(temp);
                     LayerMask layerMaskCell = LayerMask.GetMask("Cell");
                     LayerMask layermaskPieceAvoid = LayerMask.GetMask("Pieces");
+                    LayerMask layerDropBox = LayerMask.GetMask("Drop");
                     layermaskPieceAvoid = ~layermaskPieceAvoid;
                     if (Input.GetMouseButtonUp(0))
                     {
+                        Debug.Log("click");
                         RaycastHit hit;
                         Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+
+                        //if(Physics.Raycast(ray, out hit, Mathf.Infinity, layerDropBox))
+                        if (Physics.Raycast(ray, out hit, Mathf.Infinity, layerDropBox))
+                        {
+                            dropBox.gameObject.SetActive(false);
+                            dropBox.enabled = false;
+                            controller.manager.PlaySound(controller.manager.pieceClip);
+                            Debug.Log("Droped piece " + hit.transform.name);
+                            foreach (PlayerPiece piece in this.GetComponentsInChildren<PlayerPiece>())
+                            {
+                                piece.GetComponent<BoxCollider>().enabled = true;
+                                piece.GetComponent<SpriteRenderer>().enabled = true;
+                            }
+                            Destroy(currentPlayingPiece.gameObject);
+                        }
+
                         if (Physics.Raycast(ray, out hit, Mathf.Infinity, layerMaskCell))
                         {
                             if (!IsPointerOverUIObject())
@@ -219,7 +257,7 @@ public class PlayerInfo : MonoBehaviourPunCallbacks
                                             newHash["dice"] = dice - 1;
                                             PhotonNetwork.LocalPlayer.SetCustomProperties(newHash);
 
-
+                                            Debug.Log("played piece");
                                             playing = false;
                                         }
                                         else
@@ -263,7 +301,11 @@ public class PlayerInfo : MonoBehaviourPunCallbacks
                 }
                 else
                 {
-                    controller.manager.PlaySound(controller.manager.click2Clip);
+                    dropBox.gameObject.SetActive(false);
+                    dropBox.enabled = false;
+
+                    controller.manager.PlaySound(controller.manager.pieceClip);
+                    Debug.Log("Canceled droped");
                     foreach (PlayerPiece piece in this.GetComponentsInChildren<PlayerPiece>())
                     {
                         piece.GetComponent<BoxCollider>().enabled = true;
@@ -275,6 +317,10 @@ public class PlayerInfo : MonoBehaviourPunCallbacks
             }
             yield return null;
         }
+        Debug.Log("end of turn");
+        dropBox.gameObject.SetActive(false);
+        dropBox.enabled = false;
+        running = false;
     }
 
     public bool CheckLastPosition(Cell lastCell, Cell newCell)

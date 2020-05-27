@@ -17,8 +17,8 @@ public class OnlineTurnManager : MonoBehaviourPunCallbacks, IPunTurnManagerCallb
     public int turnInt;
     public bool isMyTurn;
 
-    public PlayerInfo localPlayerInfo;   //TO CALL THE INFORMATION ON EACH PLAYER
-    public PlayerInfo remotePlayerInfo;
+    //public PlayerInfo localPlayerInfo;   //TO CALL THE INFORMATION ON EACH PLAYER
+    //public PlayerInfo remotePlayerInfo;
 
     #region IPunTurnManagerCallbacks
 
@@ -177,7 +177,7 @@ public class OnlineTurnManager : MonoBehaviourPunCallbacks, IPunTurnManagerCallb
         //switchButton.gameObject.SetActive(true);
 
         //start couroutine to wait for a local move
-        localPlayerInfo.TurnMovement();
+        
         
 
         

@@ -99,6 +99,8 @@
     <Compile Include="Assets\Scripts\Online\PlayerInfo.cs" />
     <Compile Include="Assets\Scripts\Online\UIOnline.cs" />
     <Compile Include="Assets\Scripts\OpenLink.cs" />
+    <Compile Include="Assets\Scripts\OpenLink\OpenURL.cs" />
+    <Compile Include="Assets\Scripts\OpenLink\PressHandler.cs" />
     <Compile Include="Assets\Scripts\PlayerPiece.cs" />
     <Compile Include="Assets\Scripts\PlayerScript.cs" />
     <Compile Include="Assets\Scripts\RulesScript.cs" />

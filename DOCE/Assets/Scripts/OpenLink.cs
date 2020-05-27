@@ -15,10 +15,12 @@ public class OpenLink : MonoBehaviour
         }
         else
         {
+            
             Application.OpenURL(url);
         }
     }
 
     [DllImport("__Internal")]
-    private static extern void openWindow(string url); 
+    private static extern void openWindow(string url);
+    
 }

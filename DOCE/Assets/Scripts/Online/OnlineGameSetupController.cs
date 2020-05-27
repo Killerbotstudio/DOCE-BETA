@@ -138,7 +138,7 @@ public class OnlineGameSetupController : MonoBehaviourPunCallbacks
             {
                 info.playerID = "YOU";
                 localPlayerInfo = info;
-                turnManager.localPlayerInfo = info;
+                //turnManager.localPlayerInfo = info;
 
 
                 info.local = true;
@@ -147,7 +147,7 @@ public class OnlineGameSetupController : MonoBehaviourPunCallbacks
             {
                 info.playerID = info.Player.NickName;
                 remotePlayerInfo = info;
-                turnManager.remotePlayerInfo = info;
+                //turnManager.remotePlayerInfo = info;
             }
             //ADD HASH SETUP
             info.controller = this;
@@ -564,7 +564,7 @@ public class OnlineGameSetupController : MonoBehaviourPunCallbacks
         }
         Debug.Log("Disconnected from Photon. Attempting to load main scene.");
 
-        SceneManager.LoadScene("MainScene");
+        SceneManager.LoadScene("OnlineLobbyScene");
         Debug.Log("You should be in Main Scene.");
 
     }
