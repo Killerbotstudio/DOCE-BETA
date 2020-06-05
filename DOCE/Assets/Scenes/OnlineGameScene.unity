@@ -5283,7 +5283,7 @@ GameObject:
   - component: {fileID: 41448104}
   - component: {fileID: 41448103}
   m_Layer: 0
-  m_Name: Kickstarter image
+  m_Name: Offical Game image
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -5328,7 +5328,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: 1e91997a5c49044f5b001f6109eaff77, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 199fa166c2eb049909022931fde8acb5, type: 3}
   m_Type: 0
   m_PreserveAspect: 1
   m_FillCenter: 1
@@ -5401,7 +5401,7 @@ MonoBehaviour:
             m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
             m_IntArgument: 0
             m_FloatArgument: 0
-            m_StringArgument: https://smartiguanagames.com
+            m_StringArgument: https://docegame.com/welcome
             m_BoolArgument: 0
           m_CallState: 2
 --- !u!114 &41448104
@@ -5938,7 +5938,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: New Text
+  m_Text: 
 --- !u!222 &137016366
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -6016,7 +6016,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: New Text
+  m_Text: 
 --- !u!222 &165159413
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -11059,7 +11059,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: New Text
+  m_Text: 
 --- !u!222 &196866224
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -11695,7 +11695,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: New Text
+  m_Text: 
 --- !u!222 &327832199
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -16911,7 +16911,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: New Text
+  m_Text: 
 --- !u!222 &438781006
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -22688,7 +22688,7 @@ Camera:
   far clip plane: 1000
   field of view: 78
   orthographic: 1
-  orthographic size: 7.8
+  orthographic size: 8
   m_Depth: -1
   m_CullingMask:
     serializedVersion: 2
@@ -30673,7 +30673,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0, y: 62}
+  m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: -40, y: -10}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &864694375
@@ -30708,7 +30708,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: Going offline
+  m_Text: Taking you back to the lobby
 --- !u!222 &864694376
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -31071,6 +31071,7 @@ MonoBehaviour:
   - {fileID: 21300000, guid: 7693145bd0c8c4fb983f98834fd6b519, type: 3}
   blackDecals: {fileID: 173263514}
   whiteDecals: {fileID: 1174930427}
+  rolling: 0
   blackStartGO: {fileID: 287431200}
   blackStarterText: {fileID: 1706946093}
   blackMarker: {fileID: 23270309}
@@ -31093,6 +31094,7 @@ MonoBehaviour:
   acceptButton: {fileID: 486224653}
   quitButton: {fileID: 1591840002}
   pointerOver: {fileID: 2800000, guid: 1315bbb3e774540b0aeca4ef6fbda85c, type: 3}
+  drawRoundSprite: {fileID: 21300000, guid: 1543b322c5e674940b7d152274a18e6c, type: 3}
   ready: 0
 --- !u!114 &921299215
 MonoBehaviour:
@@ -31129,7 +31131,6 @@ MonoBehaviour:
   rollClip: {fileID: 8300000, guid: 85473530f63764a81b4b4eb396529ffb, type: 3}
   blackPlayer: {fileID: 567781394}
   whitePlayer: {fileID: 2810332150060609575}
-  initialPlayer: {fileID: 0}
 --- !u!82 &921299216
 AudioSource:
   m_ObjectHideFlags: 0
@@ -36995,7 +36996,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0, y: -234.00006}
+  m_AnchoredPosition: {x: 0, y: -234.00008}
   m_SizeDelta: {x: 0, y: -467.99997}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1067176134
@@ -37933,7 +37934,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: New Text
+  m_Text: 
 --- !u!222 &1130918268
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -38011,7 +38012,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: New Text
+  m_Text: 
 --- !u!222 &1139098452
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -43487,7 +43488,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: New Text
+  m_Text: 
 --- !u!222 &1258412777
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -43660,7 +43661,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 0.6
-  m_Text: TAKE A LOOK AT GRAVITY WARFARE
+  m_Text: "CHECK IT OUT\n Gravity Warfare\xAE"
 --- !u!222 &1317646736
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -43738,7 +43739,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: New Text
+  m_Text: 
 --- !u!222 &1325175212
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -43784,7 +43785,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.526, y: 0.5}
-  m_AnchoredPosition: {x: 167.551, y: -53}
+  m_AnchoredPosition: {x: 167.551, y: -30}
   m_SizeDelta: {x: 230.60197, y: 160}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1328154673
@@ -44279,7 +44280,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 0, y: 119}
   m_SizeDelta: {x: -40, y: -10}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1372724045
@@ -44985,7 +44986,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: New Text
+  m_Text: 
 --- !u!222 &1498667732
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -45141,7 +45142,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: New Text
+  m_Text: 
 --- !u!222 &1543226505
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -45989,7 +45990,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 277.719, y: 17}
+  m_AnchoredPosition: {x: 277.719, y: 25}
   m_SizeDelta: {x: 387, y: 126.8}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1694437963
@@ -46018,7 +46019,7 @@ MonoBehaviour:
     m_BestFit: 0
     m_MinSize: 10
     m_MaxSize: 45
-    m_Alignment: 4
+    m_Alignment: 3
     m_AlignByGeometry: 1
     m_RichText: 1
     m_HorizontalOverflow: 0
@@ -46887,7 +46888,7 @@ MonoBehaviour:
     m_VerticalOverflow: 0
     m_LineSpacing: 0.8
   m_Text: For free updates, the mobile version, and more content about our games
-    visit our Kickstarter's campaign
+    click the image
 --- !u!222 &1827642546
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -57501,7 +57502,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 48, y: 62}
+  m_AnchoredPosition: {x: 48, y: 153}
   m_SizeDelta: {x: 50, y: 50}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &2039477699
@@ -57946,7 +57947,7 @@ GameObject:
   - component: {fileID: 2067289429}
   - component: {fileID: 2067289428}
   m_Layer: 0
-  m_Name: Kickstarter title
+  m_Name: Official Game title
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -57970,7 +57971,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 228, y: 32}
-  m_SizeDelta: {x: 323.4, y: 52.5}
+  m_SizeDelta: {x: 323.4, y: 100.1}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &2067289428
 MonoBehaviour:
@@ -58003,8 +58004,8 @@ MonoBehaviour:
     m_RichText: 0
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
-    m_LineSpacing: 1
-  m_Text: CHECK IT OUT!
+    m_LineSpacing: 0.6
+  m_Text: Get the advantages of PRE-ORDER
 --- !u!222 &2067289429
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -63134,7 +63135,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: New Text
+  m_Text: 
 --- !u!222 &2106775707
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -64482,7 +64483,7 @@ MonoBehaviour:
     m_Font: {fileID: 12800000, guid: 860986078c3854aaa97c767134eeb34f, type: 3}
     m_FontSize: 30
     m_FontStyle: 1
-    m_BestFit: 0
+    m_BestFit: 1
     m_MinSize: 2
     m_MaxSize: 50
     m_Alignment: 4
@@ -64491,9 +64492,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: 'PLAYER
-
-'
+  m_Text: PLAYERNAME
 --- !u!212 &1379938959198749830
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -68832,7 +68831,7 @@ MonoBehaviour:
     m_Font: {fileID: 12800000, guid: 860986078c3854aaa97c767134eeb34f, type: 3}
     m_FontSize: 30
     m_FontStyle: 1
-    m_BestFit: 0
+    m_BestFit: 1
     m_MinSize: 2
     m_MaxSize: 50
     m_Alignment: 4
@@ -70258,8 +70257,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: 168}
-  m_SizeDelta: {x: 175, y: 50}
+  m_AnchoredPosition: {x: 5, y: 168}
+  m_SizeDelta: {x: 193.21, y: 50}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!65 &5488761533141813216
 BoxCollider:
@@ -72188,8 +72187,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: 168}
-  m_SizeDelta: {x: 175, y: 50}
+  m_AnchoredPosition: {x: -7, y: 168}
+  m_SizeDelta: {x: 193.21, y: 50}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!212 &7722461405396014932
 SpriteRenderer:

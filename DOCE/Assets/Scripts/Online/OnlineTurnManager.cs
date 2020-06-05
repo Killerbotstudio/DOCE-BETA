@@ -142,7 +142,7 @@ public class OnlineTurnManager : MonoBehaviourPunCallbacks, IPunTurnManagerCallb
              
             //    //TODO: Show tie message
             //}
-            Debug.Log("goto wait again mf");
+            Debug.Log("goto wait again");
             //gameManager.MyTurnEnds();
             
             if (!gameManager.CheckIfAvailableCells(gameManager.controller.remotePlayerInfo))
@@ -282,7 +282,7 @@ public class OnlineTurnManager : MonoBehaviourPunCallbacks, IPunTurnManagerCallb
         }
         else
         {
-            Debug.Log("###### goto wait mofo!");
+            Debug.Log("###### goto wait!");
             
         }
     }

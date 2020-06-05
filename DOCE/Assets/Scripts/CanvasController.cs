@@ -16,7 +16,6 @@ public class CanvasController : MonoBehaviour
 
     private void Awake()
     {
-        Debug.Log("Awake :)");
         CursorExit();
     }
     public void CursorEnter()

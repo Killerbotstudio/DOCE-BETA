@@ -130,7 +130,9 @@ public class BasicRulesScript : MonoBehaviour
             "\n- Left click on the empty square you want to play your die. Once it has been played <b>it cannot be moved or changed</b>." +
             "\n (undo options will be available in the full version)." +
             "\n" +
-            "\n- Playing your die ends your turn immediately.";
+            "\n- Playing your die ends your turn immediately." +
+            "\n" +
+            "\n- A draw happens when neither player is able to form a winning line. Or when a die is placed and it creates two winning lines simultaneously, one for each player.";
         ruleText2.text = rule;
         previous.interactable = true;
         next.interactable = false;

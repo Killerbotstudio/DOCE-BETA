@@ -65,7 +65,7 @@ public class OnlineGameManager : MonoBehaviour
     public PlayerInfo whitePlayer;
 
     /// <summary>Gets or sets the player who is currently playing</summary>
-    public PlayerInfo initialPlayer;
+    public static PlayerInfo initialPlayer;
     
 
     

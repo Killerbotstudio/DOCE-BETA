@@ -33,6 +33,7 @@ public class GameSettingsMenu : MonoBehaviour
     public Button playButton;
     private void Start()
     {
+        
         //nameAndVersion.text = Application.productName + " v: " + Application.version;
     }
     public void Rounds(int i)

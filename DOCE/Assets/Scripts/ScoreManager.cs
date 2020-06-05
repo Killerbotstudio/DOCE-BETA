@@ -33,6 +33,17 @@ public class ScoreManager : MonoBehaviour
         scorePanel.SetActive(true);
         MovePanel();
     }
+
+    public void ErraseScoreTexts()
+    {
+        scoreRule1.text = "";
+        scoreRule2.text = "";
+        scoreRule3.text = "";
+        scoreRule4.text = "";
+        scoreRule5.text = "";
+        roundTotalScore.text = "";
+    }
+
     public void FillScoreTextsWhenDraw(int rule1, int rule2)
     {
 

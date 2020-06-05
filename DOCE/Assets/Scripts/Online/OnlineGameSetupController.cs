@@ -196,7 +196,13 @@ public class OnlineGameSetupController : MonoBehaviourPunCallbacks
     private void ResetForNewGame()             //WILL RESET VALUES TO START A NEW ROUND
     {
         Debug.Log("ResetForNewGame");
-        PhotonNetwork.LoadLevel("OnlineGameScene");
+        PhotonNetwork.AutomaticallySyncScene = true;
+        if (PhotonNetwork.IsMasterClient)
+        {
+            PhotonNetwork.LoadLevel("OnlinePreGameScene");
+        }
+        
+        //SceneManager.LoadScene("OnlineGameScene");
 
     }
     #endregion Game Setup;
@@ -340,15 +346,17 @@ public class OnlineGameSetupController : MonoBehaviourPunCallbacks
     }
     
     
-    #endregion update room
+    #endregion update rooms
 
 
     #region player update info
     public bool rolledDice;
+    public static bool singleRematch;
+
     public override void OnPlayerPropertiesUpdate(Player targetPlayer, Hashtable changedProps)
     {
         base.OnPlayerPropertiesUpdate(targetPlayer, changedProps);
-        Debug.Log("OGSC Player props >> " + targetPlayer.NickName + " " + changedProps.ToStringFull());
+//        Debug.Log("OGSC Player props >> " + targetPlayer.NickName + " " + changedProps.ToStringFull());
 
         if(targetPlayer == PhotonNetwork.LocalPlayer)
         {
@@ -359,7 +367,16 @@ public class OnlineGameSetupController : MonoBehaviourPunCallbacks
             //Display dice to select the first player
             if(!rolledDice && changedProps.ContainsKey("roll"))
             {
-                ui.StartCoroutine(ui.RollingDice((int[])changedProps["roll"]));
+                //Conditioned to rematch in single
+                if (!singleRematch)
+                {
+                    ui.StartCoroutine(ui.RollingDice((int[])changedProps["roll"]));
+                }
+                else
+                {
+                    ui.SingleRematch();
+                }
+                
                 changedProps.Remove("roll");
                 targetPlayer.SetCustomProperties(changedProps);
                 rolledDice = true;
@@ -367,7 +384,7 @@ public class OnlineGameSetupController : MonoBehaviourPunCallbacks
         } else
         {
             //POPULATE REMOTE PLAYER INFO
-            Debug.Log("it was remote that changed");
+//            Debug.Log("it was remote that changed");
             remotePlayerInfo.SetPlayerInfo(targetPlayer);
 
             //if (targetPlayer.CustomProperties.ContainsKey("rematch"))
@@ -393,7 +410,7 @@ public class OnlineGameSetupController : MonoBehaviourPunCallbacks
 
         if (!goingOffline){
 
-            GoingOffline("You lost connection");
+            GoingOffline("Connection lost");
             return;
         }
 
@@ -421,7 +438,7 @@ public class OnlineGameSetupController : MonoBehaviourPunCallbacks
         }
 
         StopAllCoroutines();
-        GoingOffline("Your opponent left the session...");
+        GoingOffline("Your opponent has left the game...");
         base.OnPlayerLeftRoom(otherPlayer);
     }
 
@@ -442,6 +459,10 @@ public class OnlineGameSetupController : MonoBehaviourPunCallbacks
         PhotonNetwork.LocalPlayer.SetCustomProperties(hash);
         ui.WaitForRematch();
         ui.acceptButton.gameObject.SetActive(false);
+
+        //SWITCH PLAYERS ON REMATCH FOR SINGLE
+        if((string)PhotonNetwork.CurrentRoom.CustomProperties["type"] == "single")
+            singleRematch = true;
         
         StartCoroutine(WaitingForOtherToRematch(30));
         //StartCoroutine(RematchRoutine());
@@ -469,7 +490,7 @@ public class OnlineGameSetupController : MonoBehaviourPunCallbacks
             yield return new WaitForSeconds(1);
         }
 
-        GoingOffline("Leaving to main menu");
+        GoingOffline("Leaving to lobby");
     }
     /// <summary>
     /// Routine for waiting the other player for rematch
@@ -607,7 +628,7 @@ public class OnlineGameSetupController : MonoBehaviourPunCallbacks
     bool goingOffline;
     IEnumerator OfflineRoutine(string message)
     {
-        
+        singleRematch = false;
         Debug.Log("OfflineRoutine");
         manager.PlaySound(manager.errorClip);
         offlinePanel.SetActive(true);

@@ -15,7 +15,7 @@ public class OnlineMenuController : MonoBehaviourPunCallbacks
 
     [Header("Main")]
     [SerializeField] Text userIDText;
-    private string userID;
+    public static string userID;
     public Text connectingText;
     public Text usersOnline;
     public GameObject onlineMenu;
@@ -39,6 +39,8 @@ public class OnlineMenuController : MonoBehaviourPunCallbacks
 
 
     #region OnlineMenuController
+
+    private static bool hasNickname;
 
     private static OnlineMenuController instance;
     internal static OnlineMenuController Instance
@@ -99,9 +101,10 @@ public class OnlineMenuController : MonoBehaviourPunCallbacks
 
     //}
 
+        
     private IEnumerator StartConnection()
     {
-        
+        Debug.Log("StartConnectionRoutine");
         blockPanel.SetActive(true);
 
         ResetOnlineMenuMenus();
@@ -109,7 +112,18 @@ public class OnlineMenuController : MonoBehaviourPunCallbacks
         connectingText.gameObject.SetActive(true);
 
         //IDs
-        userID = GeneratedID();
+        if (!OnlineMenuController.hasNickname)
+        {
+            
+            OnlineMenuController.userID = GeneratedID();
+            userID = OnlineMenuController.userID;
+            OnlineMenuController.hasNickname = true;
+        }else
+        {
+            userID = OnlineMenuController.userID;
+        }
+        
+            
         usersOnline.text = PhotonNetwork.CountOfPlayers.ToString();
         PlayerPrefs.SetString("NickName", userID);
         PhotonNetwork.ConnectUsingSettings();
@@ -183,18 +197,43 @@ public class OnlineMenuController : MonoBehaviourPunCallbacks
         if (PhotonNetwork.CurrentRoom.CustomProperties.ContainsKey("invitation"))
         {
             SendInvite();
+        } else
+        {
+            string type = (string)PhotonNetwork.CurrentRoom.CustomProperties["type"];
+            searchingType.text = type.ToUpper();
         }
+    }
+    private int searchIndex;
+    private IEnumerator WaitToJoinRandom()
+    {
+
+        StartCoroutine(SearchingLog("any"));
+        yield return new WaitForSeconds(1);
+        PhotonNetwork.JoinRandomRoom();
+
     }
     public override void OnJoinRandomFailed(short returnCode, string message)
     {
         Debug.Log("OnJoinRandomFailed");
-        int i = Random.Range(0, 2);
-        if (i == 0)
+        searchIndex += 1;
+        if(searchIndex < 8)
         {
-            CreateRoomOnJoinFailed("single");
+            StopAllCoroutines();
+            StartCoroutine(WaitToJoinRandom());
+
         } else
         {
-            CreateRoomOnJoinFailed("match");
+            
+            Debug.Log("OnJoinRandomFailed");
+            int i = Random.Range(0, 2);
+            if (i == 0)
+            {
+                CreateRoomOnJoinFailed("single");
+            }
+            else
+            {
+                CreateRoomOnJoinFailed("match");
+            }
         }
     }
     public override void OnJoinRoomFailed(short returnCode, string message)
@@ -248,7 +287,10 @@ public class OnlineMenuController : MonoBehaviourPunCallbacks
             }
         }
     }
-
+    public override void OnJoinedLobby()
+    {
+        Debug.Log("Joined lobby");
+    }
     public override void OnEnable()
     {
         PhotonNetwork.AddCallbackTarget(this);
@@ -309,7 +351,7 @@ public class OnlineMenuController : MonoBehaviourPunCallbacks
         string[] ops = { "type" };
         roomOps.CustomRoomPropertiesForLobby = ops;
         roomOps.CustomRoomProperties = new Hashtable { { "type", type } };
-        
+
         roomOps.MaxPlayers = 2;
         roomOps.BroadcastPropsChangeToAll = true;
         roomOps.IsOpen = true;
@@ -321,7 +363,6 @@ public class OnlineMenuController : MonoBehaviourPunCallbacks
             attempt = 0;
             PhotonNetwork.CreateRoom(null, roomOps);
         }
-
     }
 
     public void OnClickCreateInvitationRoom(string type)
@@ -346,31 +387,72 @@ public class OnlineMenuController : MonoBehaviourPunCallbacks
             attempt = 0;
             PhotonNetwork.CreateRoom(null, roomOps);
         }
-        
     }
 
     public void OnClickJoinInvitation(string roomName)
     {
         Debug.Log("OnClickJoinInvitation Initialized");
         Debug.Log("Is Connected: " + PhotonNetwork.IsConnectedAndReady);
-        Debug.Log("In Room: " + !PhotonNetwork.InRoom);
+        Debug.Log("In Room: " + PhotonNetwork.InRoom);
         Debug.Log("In Lobby: " + PhotonNetwork.InLobby);
 
-        if (PhotonNetwork.IsConnectedAndReady && !PhotonNetwork.InRoom )//&& PhotonNetwork.InLobby)
+        StopAllCoroutines();
+        //if (PhotonNetwork.IsConnectedAndReady && !PhotonNetwork.InRoom )//&& PhotonNetwork.InLobby)
+        //{
+        //    searchPanel.SetActive(false);
+        //    Debug.Log("Im connected to everything.");
+        //    roomPanel.SetActive(true);
+        //    PhotonNetwork.JoinRoom(roomName);
+
+
+        //}
+        StartCoroutine(JoinInvitationRoutine(roomName));
+        
+    }
+
+    private IEnumerator JoinInvitationRoutine(string roomName)
+    {
+        Debug.Log("JoinInvitationRoutine");
+        if(PhotonNetwork.InRoom)
+            PhotonNetwork.LeaveRoom();
+        //while (PhotonNetwork.InRoom)
+        //{
+        //    yield return null;
+        //}
+        //yield return StartCoroutine(WaitToConnect());
+
+        Debug.Log("left room");
+        //float timer =0;
+        while (!PhotonNetwork.InLobby)
+        //while(timer < 3)
         {
+          //  timer += Time.deltaTime;
+            Debug.Log("not in lobby... waiting");
+            yield return new WaitForSeconds(1);
+            //yield return null;
+        }
+        
+       
+        Debug.Log("Is Connected: " + PhotonNetwork.IsConnectedAndReady);
+        Debug.Log("In Room: " + PhotonNetwork.InRoom);
+
+        
+
+        if (PhotonNetwork.IsConnectedAndReady && !PhotonNetwork.InRoom)//&& PhotonNetwork.InLobby)
+        {
+            searchPanel.SetActive(false);
             Debug.Log("Im connected to everything.");
             roomPanel.SetActive(true);
             PhotonNetwork.JoinRoom(roomName);
 
-            
-        }
-        
-    }
 
+        }
+    }
     public void OnClickSearchForRoomOfType(string type)
     {
-        attempt = 0;
         Debug.Log("OnClickSearchRoomOfType>" + type);
+        attempt = 0;
+        
         StartCoroutine(SearchingLog(type));
         List<RoomInfo> tempRoomList = new List<RoomInfo>();
         RoomInfo selectedRoom = null;
@@ -397,10 +479,12 @@ public class OnlineMenuController : MonoBehaviourPunCallbacks
         }
 
     }
-
+    
     public void OnClickJoinAnyRoom()
     {
+        Debug.Log("OnClickJoinAny");
         attempt = 0;
+        searchIndex = 0;
         Debug.Log("OnClickJoinAnyRoom");
         StartCoroutine(SearchingLog("any"));
         PhotonNetwork.JoinRandomRoom();
@@ -419,6 +503,7 @@ public class OnlineMenuController : MonoBehaviourPunCallbacks
 
     public void LeaveLobbyButton()
     {
+        Debug.Log("LeaveRoomButton");
         ResetLobbyMenu();
         ResetRoomMenu();
         if (PhotonNetwork.IsConnected)
@@ -475,7 +560,7 @@ public class OnlineMenuController : MonoBehaviourPunCallbacks
 
     public override void OnPlayerEnteredRoom(Player newPlayer)
     {
-        Debug.Log("player enter");
+        Debug.Log("OnPlayerEnteredRoom");
         if (PhotonNetwork.PlayerList.Length == 2)
         {
             foreach(Player player in PhotonNetwork.PlayerList)
@@ -491,8 +576,9 @@ public class OnlineMenuController : MonoBehaviourPunCallbacks
     }
     public override void OnPlayerLeftRoom(Player otherPlayer)
     {
+        Debug.Log("OnPlayerLeftRoom");
         opponentFound = false;
-        Debug.Log("player left from main scene");
+        
         if (!PhotonNetwork.IsConnected)
             return;
         if (PhotonNetwork.CurrentRoom == null || PhotonNetwork.CurrentRoom.Players == null)
@@ -511,7 +597,8 @@ public class OnlineMenuController : MonoBehaviourPunCallbacks
 
     public override void OnLeftRoom()
     {
-        base.OnLeftRoom();
+        Debug.Log("OnLeftRoom");
+        //base.OnLeftRoom();
         opponentFound = false;
         searching = false;
         invite = false;
@@ -523,6 +610,7 @@ public class OnlineMenuController : MonoBehaviourPunCallbacks
 
     private IEnumerator OpponentFoundRoutine()
     {
+        Debug.Log("OpponentFoundRoutine");
         invite = false;
         searching = false;
         opponentFound = true;
@@ -562,7 +650,10 @@ public class OnlineMenuController : MonoBehaviourPunCallbacks
         bool localReady = false;
         bool remoteReady = false;
 
-
+        if (PhotonNetwork.CurrentRoom.CustomProperties.ContainsKey("invitation"))
+        {
+            OnClickPlayerReady();
+        }
         while (PhotonNetwork.PlayerList.Length == 2 && timeLimit > 0)
         {
             localReady = (bool)PhotonNetwork.LocalPlayer.CustomProperties["ready"];
@@ -646,7 +737,7 @@ public class OnlineMenuController : MonoBehaviourPunCallbacks
             PhotonNetwork.LeaveRoom();
             opponentFound = false;
             timeOutText.text = "Sorry, you don't seem to be around." +
-                "That's ok, get back in the queue when you're ready.";
+                "\nThat's ok, get back in the queue when you're ready.";
             outro = 3;
             yield return new WaitForSeconds(outro);
             ExitSearch();
@@ -659,7 +750,7 @@ public class OnlineMenuController : MonoBehaviourPunCallbacks
             Debug.Log("Condition Local");
             PhotonNetwork.LeaveRoom();
             timeOutText.text = "Sorry, you don't seem to be around." +
-                "That's ok, get back in the queue when you're ready.";
+                "\nThat's ok, get back in the queue when you're ready.";
             outro = 4;
             opponentFound = false;
             yield return new WaitForSeconds(outro);
@@ -684,8 +775,8 @@ public class OnlineMenuController : MonoBehaviourPunCallbacks
                     Debug.Log("Doesnt contain invitation " + PhotonNetwork.CurrentRoom.CustomProperties.ToStringFull());
                 }
             }
-            timeOutText.text = "Sorry, the other player didn't answer in time." +
-                "You've been placed back in the queue";
+            timeOutText.text = "The other player didn’t answer in time." +
+                "\nYou've been placed back in the queue";
             outro = 3;
             opponentFound = false;
             yield return new WaitForSeconds(outro);
@@ -717,7 +808,7 @@ public class OnlineMenuController : MonoBehaviourPunCallbacks
             }
 
             timeOutText.text = "Sorry, the other player is missing." +
-                "You've been placed back in the queue";
+                "\nYou've been placed back in the queue";
             outro = 2;
             opponentFound = false;
             yield return new WaitForSeconds(outro);
@@ -732,7 +823,7 @@ public class OnlineMenuController : MonoBehaviourPunCallbacks
             Debug.Log("Condition Invitation");
             attempt = 0;
             opponentFound = false;
-            timeOutText.text = "Sorry, the other player is missing or left the room";
+            timeOutText.text = "Sorry, the other player is missing or left";
             outro = 3;
             yield return new WaitForSeconds(outro);
             ExitSearch();
@@ -744,8 +835,9 @@ public class OnlineMenuController : MonoBehaviourPunCallbacks
 
     private IEnumerator SearchingLog(string room)
     {
-        searching = true;
         Debug.Log("SearchingLog Coroutine Initialized");
+        searching = true;
+        
         timeOutPanel.SetActive(false);
         exitSearchButton.SetActive(true);
         acceptButton.enabled = true;
@@ -814,6 +906,7 @@ public class OnlineMenuController : MonoBehaviourPunCallbacks
 
     public void OnClickPlayerReady()
     {
+        Debug.Log("OnClickPlayerReady");
         if (PhotonNetwork.LocalPlayer.CustomProperties.ContainsKey("ready"))
         {
             Hashtable playerHash = PhotonNetwork.LocalPlayer.CustomProperties;
@@ -826,6 +919,7 @@ public class OnlineMenuController : MonoBehaviourPunCallbacks
     }
     public void StartGame()
     {
+        Debug.Log("StartGame");
         //PhotonNetwork.AutomaticallySyncScene = true;
         if (PhotonNetwork.IsMasterClient && !loading)
         {
@@ -871,8 +965,12 @@ public class OnlineMenuController : MonoBehaviourPunCallbacks
     public Button popupAcept;
     public Button popupDecline;
 
+    
+
+
     public void OnClickSearchUser(InputField input)
     {
+        Debug.Log("OnClickSearchUser");
         friendID = input.text;
         exitInvitationButton.SetActive(true);
         //inviteButton.enabled = false;
@@ -891,6 +989,7 @@ public class OnlineMenuController : MonoBehaviourPunCallbacks
 
     private void OpenInvitationPanel()
     {
+        Debug.Log("OpenInvitationPanel");
         ResetInvitingMenu();
         invitationPanel.SetActive(true);
         invitingPlayerText.text = "<b>INVITING </b>" + friendID;
@@ -898,6 +997,7 @@ public class OnlineMenuController : MonoBehaviourPunCallbacks
     bool invite;
     public void SendInvite()
     {
+        Debug.Log("SendInvite");
         if (!invite)
         {
             Debug.Log("SendInvite Initialized (!invite)");
@@ -914,6 +1014,7 @@ public class OnlineMenuController : MonoBehaviourPunCallbacks
 
     public void SendReject(string userID)
     {
+        Debug.Log("SendRejected");
         messager.SendReject(userID);
         popupAcept.onClick.RemoveAllListeners();
         popupDecline.onClick.RemoveAllListeners();
@@ -923,6 +1024,7 @@ public class OnlineMenuController : MonoBehaviourPunCallbacks
     private bool opponentFound;
     private IEnumerator WaitForAccept()
     {
+        Debug.Log("WaitForAcceptRoutine");
         float timer = 15f;
 
         while (timer > 0 && !opponentFound)
@@ -949,6 +1051,7 @@ public class OnlineMenuController : MonoBehaviourPunCallbacks
 
     private IEnumerator FailedToFindUser()
     {
+        Debug.Log("FailedToFindUser");
         inputField.enabled = false; //To reset the search user by username input field
         inputField.text = "";
         inviteInputText.text = "Find by nickname...";
@@ -957,7 +1060,7 @@ public class OnlineMenuController : MonoBehaviourPunCallbacks
         
         
         inputField.enabled = true;
-        inviteInfoText.text = "User nicknames are case sensitive";
+        inviteInfoText.text = "Users' nicknames are case sensitive";
         inviteButton.enabled = true;
     }
     
@@ -965,11 +1068,13 @@ public class OnlineMenuController : MonoBehaviourPunCallbacks
 
     public void OnInvitationRejected()
     {
+        Debug.Log("OnInvitationRejected");
         StartCoroutine(RejectedRoutine());
     }
 
     private IEnumerator RejectedRoutine()
     {
+        Debug.Log("RejectedRoutine");
         if (invite)
         {
             FindObjectOfType<CanvasController>().SoundReject();
@@ -1001,12 +1106,16 @@ public class OnlineMenuController : MonoBehaviourPunCallbacks
 
     public void OnClickPopupAccept()
     {
+        Debug.Log("OnClickPopupAccet");
+        StopAllCoroutines();
+
         OnClickJoinInvitation(tempInvitationRoomName);
         invite = false;
-        StopAllCoroutines();
+        
     }
     public void OnClickPopupDecline()
     {
+        Debug.Log("OnClickPopupDecline");
         SendReject(tempSenderID);
         invite = false;
         StopAllCoroutines();
@@ -1034,7 +1143,7 @@ public class OnlineMenuController : MonoBehaviourPunCallbacks
         }
         
 
-        float time = 10;
+        int time = 10;
 
         //PLAY ALERT SOUNDS
         //SETUP BUTTONS
@@ -1052,9 +1161,9 @@ public class OnlineMenuController : MonoBehaviourPunCallbacks
         while (time > 0)
         {
 
-            time -= Time.deltaTime;
-            popupTimer.text = time.ToString("F1");
-            yield return null;
+            time -= 1;
+            popupTimer.text = time.ToString();
+            yield return new WaitForSeconds(1);
         }
 
         popupTimer.text = "0.0";
@@ -1086,6 +1195,7 @@ public class OnlineMenuController : MonoBehaviourPunCallbacks
     /// </summary>
     public void ResetOnlineMenuMenus()
     {
+        Debug.Log("ResetOnlineMenu");
         connectingText.gameObject.SetActive(false);
         usersOnline.text = "...";
 
@@ -1101,14 +1211,15 @@ public class OnlineMenuController : MonoBehaviourPunCallbacks
 
     public void ResetLobbyMenu()
     {
+        Debug.Log("ResetLobbyMenu");
         lobbyPanel.SetActive(true);
         singleRoomButton.gameObject.SetActive(true);
         matchRoomButton.gameObject.SetActive(true);
         anyRoomButton.gameObject.SetActive(true);
         inputField.gameObject.SetActive(true);
 
-        inviteInfoText.text = "Users Nickname are case sensitive";
-        inviteInputText.text = "Filter by Nickname";
+        inviteInfoText.text = "Users' nicknames are case sensitive";
+        inviteInputText.text = "Filter by nickname";
         inviteButton.GetComponentInChildren<Text>().text = "Search";
         inviteButton.interactable = true;
         invitationPanel.SetActive(false);
@@ -1117,6 +1228,7 @@ public class OnlineMenuController : MonoBehaviourPunCallbacks
 
     public void ResetRoomMenu()
     {
+        Debug.Log("ResetRoomMenu");
 
         roomPanel.SetActive(false);
         opponentPanel.SetActive(false);
@@ -1129,6 +1241,7 @@ public class OnlineMenuController : MonoBehaviourPunCallbacks
 
     public void ResetInvitingMenu()
     {
+        Debug.Log("ResetInvitationMenu");
         //Panel
         invitationPanel.SetActive(false);
         rejectedPanel.SetActive(false);
@@ -1151,6 +1264,7 @@ public class OnlineMenuController : MonoBehaviourPunCallbacks
     }
     public void OnClickBackToLocalOnlineMenu()
     {
+        Debug.Log("OnClickBackToLocalOnlineMenu");
         ResetOnlineMenuMenus();
         messager.enabled = false;
         messager.DisconnectChat();
@@ -1161,8 +1275,9 @@ public class OnlineMenuController : MonoBehaviourPunCallbacks
 
     public void ExitSearch()
     {
-        StopAllCoroutines();
         Debug.Log("ExitSearch");
+        StopAllCoroutines();
+        
         acceptButton.enabled = true;
         acceptButton.interactable = true;
         if (PhotonNetwork.InRoom)
@@ -1210,6 +1325,7 @@ public class OnlineMenuController : MonoBehaviourPunCallbacks
 
         roomPanel.SetActive(false);
         ResetLobbyMenu();
+        Debug.Log("finished connection");
     }
 
     
@@ -1226,6 +1342,7 @@ public class OnlineMenuController : MonoBehaviourPunCallbacks
 
     private IEnumerator LeaveToMenu()
     {
+        Debug.Log("LeaveToMenu");
         PhotonNetwork.LocalPlayer.CustomProperties.Clear();
         PhotonNetwork.LeaveRoom();
         while (PhotonNetwork.InRoom)

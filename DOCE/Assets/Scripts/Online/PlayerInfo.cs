@@ -76,6 +76,7 @@ public class PlayerInfo : MonoBehaviourPunCallbacks
         lastPositionPlayed = null;
         listOfPlayedPositions.Clear();
         currentPlayingPiece = null;
+        scoreManager.ErraseScoreTexts();        //ERRASES THE SCORES IN TABLE
 
 
     }

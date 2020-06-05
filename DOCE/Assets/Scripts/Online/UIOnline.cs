@@ -32,7 +32,7 @@ public class UIOnline : MonoBehaviour
     public List<Sprite> decals;
     public Image blackDecals;
     public Image whiteDecals;
-    bool rolling = false;
+    public bool rolling = false;
     public GameObject blackStartGO;
     public Text blackStarterText;
     public GameObject blackMarker;
@@ -120,6 +120,7 @@ public class UIOnline : MonoBehaviour
             whitePlayer.roundsRecordObject.SetActive(false);
         }
     }
+    [SerializeField] private Sprite drawRoundSprite;
     //TO ACTIVATE THE ROUND RECORD ITEMS
     public void SetupRoundRecord(PlayerInfo player)
     {
@@ -129,14 +130,19 @@ public class UIOnline : MonoBehaviour
             {
                 player.roundsRecordObject.transform.GetChild(i).GetComponent<Image>().color = Color.white;
 
+            } else if(player.roundRecord[i] == 2)
+            {
+                //USE THIS WHEN IS A TIE
+                player.roundsRecordObject.transform.GetChild(i).GetComponent<Image>().sprite = drawRoundSprite;
+                player.roundsRecordObject.transform.GetChild(i).GetComponent<Image>().color = Color.white;
             }
         }
     }
-    private void RoundRecords(PlayerInfo player)
+    private void RoundRecords(PlayerInfo player, int value)
     {
         if (controller.rounds > 1)
         {
-            player.roundRecord[controller.roundNumber - 1] = 1;
+            player.roundRecord[controller.roundNumber - 1] = value;
         }
         SetupRoundRecord(player);
     }
@@ -177,7 +183,12 @@ public class UIOnline : MonoBehaviour
             
             if (blk > wht)
             {
-                controller.manager.initialPlayer = controller.blackPlayerInfo;
+                // OnlineGameManager.initialPlayer = controller.blackPlayerInfo
+                //SETS THE INITIAL PLAYER
+                InitialPlayer.GetSetIni = controller.blackPlayerInfo;
+                Debug.Log("Player::::::::::" + InitialPlayer.GetSetIni);
+                InitialPlayer.PlayerIndex = 1;
+                Debug.Log("Index::::::::::" + InitialPlayer.PlayerIndex);
                 blackMarker.SetActive(true);
                 if (blackPlayer == controller.localPlayerInfo)
                 {
@@ -198,8 +209,12 @@ public class UIOnline : MonoBehaviour
             }
             else
             {
-                controller.manager.initialPlayer = controller.whitePlayerInfo;
-
+                //OnlineGameManager.initialPlayer = controller.whitePlayerInfo;
+                //SETS THE INITIAL PLAYER
+                InitialPlayer.GetSetIni = controller.whitePlayerInfo;
+                Debug.Log("Player::::::::::" + InitialPlayer.GetSetIni);
+                InitialPlayer.PlayerIndex = 2;
+                Debug.Log("Index::::::::::" + InitialPlayer.PlayerIndex);
                 if (whitePlayer == controller.localPlayerInfo)
                 {
                     infoText.text = "YOU MOVE FIRST";
@@ -221,6 +236,70 @@ public class UIOnline : MonoBehaviour
             StartCoroutine(StartGame());
             
         }
+    }
+
+    //HANDLES SINGLE MATCH REMATCHES
+    public void SingleRematch()
+    {
+        Debug.Log("SINGLE REMATCH: " + InitialPlayer.GetSetIni);
+
+        PlayerInfo initial = InitialPlayer.GetSetIni;
+        Debug.Log("SINGLE REMATCH INDEX: " + InitialPlayer.PlayerIndex);
+        int index = InitialPlayer.PlayerIndex;
+
+
+        if (index == 2)
+        {
+            // OnlineGameManager.initialPlayer = controller.blackPlayerInfo
+            //SETS THE INITIAL PLAYER
+            
+            blackMarker.SetActive(true);
+            if (blackPlayer == controller.localPlayerInfo)
+            {
+                infoText.text = "YOU MOVE FIRST";
+            }
+            else
+            {
+                infoText.text = "FIRST MOVE: " + blackPlayer.playerID;
+            }
+
+            controller.manager.blackPlayer.turn = true;
+            if (controller.blackPlayerInfo.local)
+            {
+                controller.turnManager.isMyTurn = true;
+                //controller.manager.initialPlayer = controller.blackPlayerInfo;
+                //
+            }
+            InitialPlayer.PlayerIndex = 1;
+        }
+        else
+        {
+            //OnlineGameManager.initialPlayer = controller.whitePlayerInfo;
+            //SETS THE INITIAL PLAYER
+            
+            if (whitePlayer == controller.localPlayerInfo)
+            {
+                infoText.text = "YOU MOVE FIRST";
+            }
+            else
+            {
+                infoText.text = "FIRST MOVE: " + whitePlayer.playerID;
+            }
+
+            whiteMaker.SetActive(true);
+            //infoText.text = "FIRST MOVE: " + whitePlayer.playerID;
+            controller.manager.whitePlayer.turn = true;
+            if (controller.whitePlayerInfo.local)
+            {
+                controller.turnManager.isMyTurn = true;
+                //controller.manager.initialPlayer = controller.whitePlayerInfo;
+            }
+            InitialPlayer.PlayerIndex = 2;
+        }
+
+
+        StartCoroutine(StartGame());
+        
     }
 
     /// <summary>
@@ -250,7 +329,7 @@ public class UIOnline : MonoBehaviour
         //RoundRecordStarter();
 
 
-        if (controller.rounds == 1 || controller.roundNumber == 4)
+        if (controller.rounds == 1 || controller.roundNumber >= 4)
         {
             StartCoroutine(WinGameSEQ(0, 4));
             StopCoroutine(NextRound());
@@ -324,34 +403,37 @@ public class UIOnline : MonoBehaviour
     private IEnumerator WinningRoundSEQ()
     {
         Debug.Log("WinningRoundSEQ Routine");
+        Debug.Log("QQQQQQQQQQQQQ:" + controller.manager.numberOfRoundsInGame + " vs " + controller.rounds);
+        
         ready = false;
         if (blackPlayer.winner && whitePlayer.winner)
         {
-            RoundRecords(blackPlayer);
-            RoundRecords(whitePlayer);
-            if (controller.manager.numberOfRoundsInGame > 1)
-            {
-                blackPlayer.roundRecord[controller.roundNumber - 1] = 1;
-                whitePlayer.roundRecord[controller.roundNumber - 1] = 1;
-            }
+            RoundRecords(blackPlayer, 2);
+            RoundRecords(whitePlayer, 2);
+            //if (controller.manager.numberOfRoundsInGame > 1)
+            //{
+
+            //    blackPlayer.roundRecord[controller.roundNumber - 1] = 1;
+            //    whitePlayer.roundRecord[controller.roundNumber - 1] = 1;
+            //}
             controller.manager.PlaySound(controller.manager.pieceClip);
-            StartCoroutine(ShowMessage("TIE!", 2, 2));
+            StartCoroutine(ShowMessage("DRAW", 2, 2));
             TieScoreCalculation(blackPlayer);
             TieScoreCalculation(whitePlayer);
             blackScoreText.text = blackPlayer.score.ToString();
             whiteScoreText.text = whitePlayer.score.ToString();
             HighlightCells(winColor);
             Debug.Log("!!!!!!!!!!!!!!TIE!!!!!!!!!!!");
-            yield return ShowMessage("TIE!", 2, 2);         // WAIT FOR COROUTINE TO END
+            yield return ShowMessage("DRAW", 2, 2);         // WAIT FOR COROUTINE TO END
             ResetCells();
         }
         else if (blackPlayer.winner)
         {
-            RoundRecords(blackPlayer);
-            if (controller.manager.numberOfRoundsInGame > 1)
-            {
-                blackPlayer.roundRecord[controller.roundNumber - 1] = 1;
-            }
+            RoundRecords(blackPlayer,1);
+            //if (controller.manager.numberOfRoundsInGame > 1)
+            //{
+            //    blackPlayer.roundRecord[controller.roundNumber - 1] = 1;
+            //}
             StartCoroutine(PlayerRoundMessage(blackPlayer, 2, 3));
             WinningScoreCalculation(blackPlayer);
             blackScoreText.text = blackPlayer.score.ToString();
@@ -359,23 +441,26 @@ public class UIOnline : MonoBehaviour
         }
         else if (whitePlayer.winner)
         {
-            RoundRecords(whitePlayer);
-            if (controller.manager.numberOfRoundsInGame > 1)
-            {
-                whitePlayer.roundRecord[controller.roundNumber - 1] = 1;
-            }
+            RoundRecords(whitePlayer,1);
+            //if (controller.manager.numberOfRoundsInGame > 1)
+            //{
+            //    whitePlayer.roundRecord[controller.roundNumber - 1] = 1;
+            //}
             StartCoroutine(PlayerRoundMessage(whitePlayer, 2, 3));
             WinningScoreCalculation(whitePlayer);
             whiteScoreText.text = whitePlayer.score.ToString();
             yield return PlayerRoundMessage(whitePlayer, 2, 3);
         }else
         {
-            StartCoroutine(ShowMessage("TIE!", 2, 2));
+            //OLD TIE
+            StartCoroutine(ShowMessage("DRAW", 2, 2));
+            RoundRecords(blackPlayer, 2);
+            RoundRecords(whitePlayer, 2);
             TieScoreCalculation(blackPlayer);
             TieScoreCalculation(whitePlayer);
             blackScoreText.text = blackPlayer.score.ToString();
             whiteScoreText.text = whitePlayer.score.ToString();
-            yield return ShowMessage("TIE!", 2, 2);         // WAIT FOR COROUTINE TO END
+            yield return ShowMessage("DRAW", 2, 2);         // WAIT FOR COROUTINE TO END
             ResetCells();
         }
         yield return new WaitForSeconds(0);
@@ -405,7 +490,7 @@ public class UIOnline : MonoBehaviour
                 victoryImage.SetActive(true);
                 winText.text = "YOU WIN!";
                 confirmationWinner.text = "You won this game (" + controller.localPlayerInfo.score.ToString() + " pts)";
-                controller.manager.PlaySound(controller.manager.winClip);
+                //controller.manager.PlaySound(controller.manager.winClip);
             }
             else
             {
@@ -413,7 +498,7 @@ public class UIOnline : MonoBehaviour
                 victoryImage.SetActive(false);
                 winText.text = "BETTER LUCK NEXT TIME";
                 confirmationWinner.text = "WINNER: " + controller.remotePlayerInfo.playerID + " (" + controller.remotePlayerInfo.score.ToString() + " pts)";
-                controller.manager.PlaySound(controller.manager.lostClip);
+                //controller.manager.PlaySound(controller.manager.lostClip);
             }
         }
         winText.gameObject.SetActive(true);
@@ -661,3 +746,5 @@ public class UIOnline : MonoBehaviour
         Application.OpenURL("https://smartiguanagames.com");
     }
 }
+
+

@@ -2318,6 +2318,7 @@ GameObject:
   - component: {fileID: 519420031}
   - component: {fileID: 519420029}
   - component: {fileID: 519420033}
+  - component: {fileID: 519420030}
   m_Layer: 0
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -2333,6 +2334,18 @@ AudioListener:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 519420028}
   m_Enabled: 1
+--- !u!114 &519420030
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 519420028}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b3d72024bd2ac1f4885229a07d997bdb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!20 &519420031
 Camera:
   m_ObjectHideFlags: 0
@@ -2360,7 +2373,7 @@ Camera:
   far clip plane: 1000
   field of view: 78
   orthographic: 1
-  orthographic size: 8.3
+  orthographic size: 8
   m_Depth: -1
   m_CullingMask:
     serializedVersion: 2
@@ -3080,7 +3093,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: INVITATION REJECTED
+  m_Text: INVITATION DECLINED
 --- !u!222 &662226172
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -7271,7 +7284,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: Play one game. Winner take all!
+  m_Text: Play one game. Winner takes all!
 --- !u!222 &1822638102
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -8649,7 +8662,7 @@ MonoBehaviour:
   m_FontData:
     m_Font: {fileID: 12800000, guid: 916bccd1c9aef4739b5a2b2cf1993a8e, type: 3}
     m_FontSize: 34
-    m_FontStyle: 0
+    m_FontStyle: 1
     m_BestFit: 0
     m_MinSize: 0
     m_MaxSize: 123
@@ -9289,6 +9302,7 @@ GameObject:
   - component: {fileID: 2026154302018629070}
   - component: {fileID: 2026154302018629069}
   - component: {fileID: 2026154302018629072}
+  - component: {fileID: 2026154302018629073}
   m_Layer: 0
   m_Name: Invite InputField
   m_TagString: Untagged
@@ -9573,6 +9587,18 @@ MonoBehaviour:
             m_StringArgument: 
             m_BoolArgument: 0
           m_CallState: 2
+--- !u!114 &2026154302018629073
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2026154302018629067}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b3d72024bd2ac1f4885229a07d997bdb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!222 &2026154302029228328
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -10348,7 +10374,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: User nicknames are case sensitive
+  m_Text: Users' nicknames are case sensitive
 --- !u!222 &2026154302238718647
 CanvasRenderer:
   m_ObjectHideFlags: 0
