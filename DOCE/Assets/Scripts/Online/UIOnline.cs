@@ -183,7 +183,7 @@ public class UIOnline : MonoBehaviour
             
             if (blk > wht)
             {
-                // OnlineGameManager.initialPlayer = controller.blackPlayerInfo
+                controller.manager.initialPlayer = controller.blackPlayerInfo;
                 //SETS THE INITIAL PLAYER
                 InitialPlayer.GetSetIni = controller.blackPlayerInfo;
                 Debug.Log("Player::::::::::" + InitialPlayer.GetSetIni);
@@ -209,7 +209,7 @@ public class UIOnline : MonoBehaviour
             }
             else
             {
-                //OnlineGameManager.initialPlayer = controller.whitePlayerInfo;
+                controller.manager.initialPlayer = controller.whitePlayerInfo;
                 //SETS THE INITIAL PLAYER
                 InitialPlayer.GetSetIni = controller.whitePlayerInfo;
                 Debug.Log("Player::::::::::" + InitialPlayer.GetSetIni);

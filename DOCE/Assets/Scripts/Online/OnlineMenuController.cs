@@ -8,6 +8,7 @@ using Photon.Realtime;
 using Hashtable = ExitGames.Client.Photon.Hashtable;
 using ExitGames.Client.Photon;
 using UnityEngine.SceneManagement;
+
 ///using UnityEditor.VersionControl;
 
 public class OnlineMenuController : MonoBehaviourPunCallbacks
@@ -111,6 +112,8 @@ public class OnlineMenuController : MonoBehaviourPunCallbacks
         connectingText.text = "Connecting";
         connectingText.gameObject.SetActive(true);
 
+        
+
         //IDs
         if (!OnlineMenuController.hasNickname)
         {
@@ -127,7 +130,7 @@ public class OnlineMenuController : MonoBehaviourPunCallbacks
         usersOnline.text = PhotonNetwork.CountOfPlayers.ToString();
         PlayerPrefs.SetString("NickName", userID);
         PhotonNetwork.ConnectUsingSettings();
-
+        
                
 
         float timer = 5;
@@ -436,18 +439,15 @@ public class OnlineMenuController : MonoBehaviourPunCallbacks
         Debug.Log("Is Connected: " + PhotonNetwork.IsConnectedAndReady);
         Debug.Log("In Room: " + PhotonNetwork.InRoom);
 
-        
-
         if (PhotonNetwork.IsConnectedAndReady && !PhotonNetwork.InRoom)//&& PhotonNetwork.InLobby)
         {
             searchPanel.SetActive(false);
             Debug.Log("Im connected to everything.");
             roomPanel.SetActive(true);
             PhotonNetwork.JoinRoom(roomName);
-
-
         }
     }
+
     public void OnClickSearchForRoomOfType(string type)
     {
         Debug.Log("OnClickSearchRoomOfType>" + type);
@@ -570,7 +570,15 @@ public class OnlineMenuController : MonoBehaviourPunCallbacks
                 playerHash["ready"] = false;
                 player.SetCustomProperties(playerHash); // BETTER SETUP ON JOIN TO ROOM
             }
-            StartCoroutine(OpponentFoundRoutine());
+            if (PhotonNetwork.CurrentRoom.CustomProperties.ContainsKey("invitation"))
+            {
+                OnPlayerAcceptInvite();
+            }
+            else
+            {
+                StartCoroutine(OpponentFoundRoutine());
+            }
+            
         }
 
     }
@@ -607,6 +615,17 @@ public class OnlineMenuController : MonoBehaviourPunCallbacks
 
 
     bool searching;
+
+    private void OnPlayerAcceptInvite()
+    {
+        Debug.Log("OnPlayerAcceptedInvite");
+        invite = false;
+        searching = false;
+        opponentFound = true;
+        blockPanel.SetActive(true);
+        StopAllCoroutines();
+        StartGame();
+    }
 
     private IEnumerator OpponentFoundRoutine()
     {
@@ -650,10 +669,7 @@ public class OnlineMenuController : MonoBehaviourPunCallbacks
         bool localReady = false;
         bool remoteReady = false;
 
-        if (PhotonNetwork.CurrentRoom.CustomProperties.ContainsKey("invitation"))
-        {
-            OnClickPlayerReady();
-        }
+        
         while (PhotonNetwork.PlayerList.Length == 2 && timeLimit > 0)
         {
             localReady = (bool)PhotonNetwork.LocalPlayer.CustomProperties["ready"];

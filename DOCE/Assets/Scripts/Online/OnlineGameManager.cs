@@ -65,7 +65,7 @@ public class OnlineGameManager : MonoBehaviour
     public PlayerInfo whitePlayer;
 
     /// <summary>Gets or sets the player who is currently playing</summary>
-    public static PlayerInfo initialPlayer;
+    public PlayerInfo initialPlayer;
     
 
     
@@ -224,7 +224,7 @@ public class OnlineGameManager : MonoBehaviour
         messageLog = "NOW IS YOUR TURN";
         controller.localPlayerInfo.PiecesSwitch(true);
 
-        controller.turnManager.isMyTurn = true;
+        //controller.turnManager.isMyTurn = true;
         controller.localPlayerInfo.TurnMovement();
         //localPlayerInfo.TurnMovement();
         //controller.turnManager.enabled = true;
@@ -271,6 +271,7 @@ public class OnlineGameManager : MonoBehaviour
                 }
                 else
                 {
+                    Debug.Log("ITS A DRAW from CheckIfAnyWinner");
                     messageLog = "IT'S A DRAW!";
                     return true;
                 }

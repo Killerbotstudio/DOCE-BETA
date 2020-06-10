@@ -17,8 +17,6 @@ public class OnlineTurnManager : MonoBehaviourPunCallbacks, IPunTurnManagerCallb
     public int turnInt;
     public bool isMyTurn;
 
-    //public PlayerInfo localPlayerInfo;   //TO CALL THE INFORMATION ON EACH PLAYER
-    //public PlayerInfo remotePlayerInfo;
 
     #region IPunTurnManagerCallbacks
 
@@ -30,12 +28,10 @@ public class OnlineTurnManager : MonoBehaviourPunCallbacks, IPunTurnManagerCallb
 
         
 
-        Debug.Log(">>>>>>> local:" + finishedByLocal + " VS " + finishedByRemote + ": remote <<<<<");
-      //  Debug.Log("Move of type " + move.GetType().Name + " received");
+        Debug.Log(">>>>>>> local:" + finishedByLocal + " VS remote: " + finishedByRemote + " <<<<<");
         if (player == PhotonNetwork.LocalPlayer) //Local is the one who finished
         {
 
-            //TODO leer mi jugada y actualizar el tablero acorde a move
             isMyTurn = false;
             gameManager.EndTurn();
             Debug.Log("I just finished! -------");
@@ -44,31 +40,12 @@ public class OnlineTurnManager : MonoBehaviourPunCallbacks, IPunTurnManagerCallb
         }
         else
         {
-            //object[] message = { 0, 0, 0, "s" };
-
-            //if (move.GetType().IsArray)
-            //{
-
-            //    message = (object[])move;
-            //}
-
-
-            //int val = (int)message[0];
-            //int row = (int)message[1];
-            //int col = (int)message[2];
-            //string cellName = (string)message[3];
-
-            //Debug.Log("DECODING... " + val.ToString() + "," + row.ToString() + "," + col.ToString() + "," + cellName);
+            Debug.Log("The other player just finished! -------");
             isMyTurn = true;
             gameManager.DecodeMove(move);
-            //TODO: leer la jugada de mi oponente y actualizar el tablero acorde a move
-           // gameManager.StartTurn();
-          //  Debug.Log("  -Remote Player property 'turn' set to false and local to true!");
 
         }
 
-
-        //TODO: Check if a player won the game (start OnlineGameManager.EndOfGame() routine )
 
         Debug.Log("Pieces: local: " + gameManager.controller.localPlayerInfo.listOfPlayedPositions.Count + " VS " + gameManager.controller.remotePlayerInfo.listOfPlayedPositions.Count);
         if (gameManager.CheckIfAnyWinner())
@@ -77,15 +54,15 @@ public class OnlineTurnManager : MonoBehaviourPunCallbacks, IPunTurnManagerCallb
             gameManager.EndOfROund();    
             Debug.Log("**********END ROUND********");
 
-        } else
+        } else if(isMyTurn)
         {
+            
             turnManager.BeginTurn();
             Debug.Log("The round has ended. Because: " + gameManager.messageLog);
-            Debug.Log("############TURN END############");
-
+            
             //gameManager.SomethingHappened(msg);
         }
-
+        Debug.Log("############TURN END############");
     }
 
     //Called when a blocker move is made. move is the information about that blocker movement
@@ -93,35 +70,10 @@ public class OnlineTurnManager : MonoBehaviourPunCallbacks, IPunTurnManagerCallb
     {
         
         Debug.Log("OnPlayerMove Initialized (blocker moved) ------------");
-       // Debug.Log("Received move of type " + move.GetType().Name + ": value " + cell.value + ", blocker" + cell.blocked);
 
-        //TODO Muestra el movivmiento del blocker en el tablero
-        if (player == PhotonNetwork.LocalPlayer)
+        if (player != PhotonNetwork.LocalPlayer)
         {
-            //TODO Destroy my blocker 
-        }
-        else
-        {
-           // object[] message = { 0, 0, 0, "s" };
-
-            //if (move.GetType().IsArray)
-            //{
-
-            //    message = (object[])move;
-            //}
-
-
-            //int val = (int)message[0];
-            //int row = (int)message[1];
-            //int col = (int)message[2];
-            //string cellName = (string)message[3];
-
-            //Debug.Log("DECODING... " + val.ToString() + "," + row.ToString() + "," + col.ToString() + "," + cellName);
             gameManager.DecodeMove(move);
-            //TODO actualizar el tablero para mostrar el movimiento de blocker del oponente
-            //TODO Destruir el blocker del oponente (en mi tablero)
-
-
         }
     }
 
@@ -130,20 +82,11 @@ public class OnlineTurnManager : MonoBehaviourPunCallbacks, IPunTurnManagerCallb
     {
         Debug.LogWarning("_______BEGIN TURN_____");
         //Debug.Log("OnTurnBegins Initialized");
-
+        Debug.Log(PhotonNetwork.ServerTimestamp);
         if (!isMyTurn)
         {
-            //TODO Desabilita el uso de mis dados y blocker: Llamar a funcion que haga esto. 
-            //TODO: Desactiva el indicador de mi turno y activa el de mi oponente
-            //gameManager.EndTurn();
-
-            //Check if the other player has any cells available
-            //if(!gameManager.CheckIfAvailableCells(remotePlayerInfo)){ //if there was a tie by not cells available
-             
-            //    //TODO: Show tie message
-            //}
+            
             Debug.Log("goto wait again");
-            //gameManager.MyTurnEnds();
             
             if (!gameManager.CheckIfAvailableCells(gameManager.controller.remotePlayerInfo))
             {
@@ -154,34 +97,15 @@ public class OnlineTurnManager : MonoBehaviourPunCallbacks, IPunTurnManagerCallb
             return;
       
         }
-        //else{
-
-        //TODO: Habilita el uso de mis dados y blocker, llama a la rutina que espera que hagas un movimiento.  
-        //TODO: Activa el indicador de mi turno y desactiva el de mi oponente
-        //if (gameManager.CheckIfAvailableCellslocalPlayerInfo))
-        //{
-        //    //TIE
-        //}
-        //gameManager.MyTurnBegins();
        
         if (!gameManager.CheckIfAvailableCells(gameManager.controller.localPlayerInfo))
         {
             gameManager.EndOfROund();
             return;
         }
-
-       
         
         gameManager.StartTurn();
-
-        //switchButton.gameObject.SetActive(true);
-
-        //start couroutine to wait for a local move
-        
-        
-
-        
-
+                
     }
 
     public void OnTurnCompleted(int turn)
@@ -274,11 +198,6 @@ public class OnlineTurnManager : MonoBehaviourPunCallbacks, IPunTurnManagerCallb
             
             Debug.Log("##### Its time to begin");
             turnManager.BeginTurn();
-            //turnInt = turnManager.Turn;
-            //startGameButton.gameObject.SetActive(false);
-            //switchButton.gameObject.SetActive(true);
-
-           // PhotonNetwork.LocalPlayer.AddScore(0);
         }
         else
         {
@@ -294,16 +213,16 @@ public class OnlineTurnManager : MonoBehaviourPunCallbacks, IPunTurnManagerCallb
     }
 
    
-    public void OnEndTurnx()
-    {
-        Debug.Log("you clicked to end turn");
-        // turnManager.BeginTurn();
-        //turnInt = turnManager.Turn;
-        //startGameButton.gameObject.SetActive(false);
-        //switchButton.gameObject.SetActive(false);
+    //public void OnEndTurnx()
+    //{
+    //    Debug.Log("you clicked to end turn");
+    //    // turnManager.BeginTurn();
+    //    //turnInt = turnManager.Turn;
+    //    //startGameButton.gameObject.SetActive(false);
+    //    //switchButton.gameObject.SetActive(false);
 
-        //PhotonNetwork.LocalPlayer.AddScore(0);
-    }
+    //    //PhotonNetwork.LocalPlayer.AddScore(0);
+    //}
     #endregion
     #endregion
 

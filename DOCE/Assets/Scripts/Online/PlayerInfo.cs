@@ -88,7 +88,7 @@ public class PlayerInfo : MonoBehaviourPunCallbacks
         {
             //piece.gameObject.SetActive(activation);
             piece.GetComponent<BoxCollider>().enabled = activation;
-            Debug.Log(piece.name);
+//            Debug.Log(piece.name);
         }
         turnIndicator.SetActive(activation);
         controller.remotePlayerInfo.turnIndicator.SetActive(!activation);

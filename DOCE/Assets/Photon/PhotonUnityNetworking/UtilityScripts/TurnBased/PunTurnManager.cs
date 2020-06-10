@@ -277,11 +277,11 @@ namespace Photon.Pun.UtilityScripts
         public override void OnRoomPropertiesUpdate(Hashtable propertiesThatChanged)
         {
 
-           // Debug.Log("OnRoomPropertiesUpdate: "+propertiesThatChanged.ToStringFull());
+            Debug.Log("OnRoomPropertiesUpdate: "+propertiesThatChanged.ToStringFull() + "ContainsTurn?: " + propertiesThatChanged.ContainsKey("Turn"));
 
             if (propertiesThatChanged.ContainsKey("Turn"))
             {
-                Debug.Log("  - ROOM PROPERTIES CHANGED: TURN! : " + propertiesThatChanged.ToStringFull());
+              //  Debug.Log("  - ROOM PROPERTIES CHANGED: TURN! : " + propertiesThatChanged.ToStringFull());
                 Debug.Log("  - CURRENT ROOM PROPERTIES: " + PhotonNetwork.CurrentRoom.CustomProperties.ToStringFull());
 
                 _isOverCallProcessed = false;
